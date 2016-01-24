@@ -5,4 +5,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="pressure">Pressure</string>
+    <string name="hostName">host</string>
+    <string name="port">port</string>
+    <string name="send">send</string>
 </resources>

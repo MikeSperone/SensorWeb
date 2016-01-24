@@ -1,28 +1,24 @@
 package com.mikesperone.sensorweb;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.IBinder;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.os.Handler;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.content.Context;
+import android.widget.EditText;
+
 
 public class FullscreenActivity extends AppCompatActivity {
 
+    private static final String TAG = "SENSORWEB_LOGS";
+
+    EditText ipButton = (EditText) findViewById(R.id.ipAddr);
+    String ipAddress = (String) ipButton.getText().toString();
+    EditText portButton = (EditText) findViewById(R.id.port);
+    String portAddress = (String) portButton.getText().toString();
+
+    Intent mServiceIntent = new Intent(this, SendSensorService.class);
+    mServiceIntent.putExtra(ipAddress, portAddress);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,21 +31,33 @@ public class FullscreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_fullscreen);
 
-        Button btnStart =(Button) findViewById(R.id.startBtn);
-        btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startService(new Intent(getBaseContext(), Sensors.class));
-            }
-        });
-        Button btnStop =(Button) findViewById(R.id.stopBtn);
-        btnStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopService(new Intent(getBaseContext(), Sensors.class));
-            }
-        });
     }
 
+    public void startSensor() {
+        startService(mServiceIntent);
+    }
+    
+    @Override
+    protected void onResume() {
+        // Register a listener for the sensor.
+        super.onResume();
 
+    }
+
+    @Override
+    protected void onPause() {
+        // Be sure to unregister the sensor when the activity pauses.
+        super.onPause();
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.e(TAG, "onDestroy");
+        super.onDestroy();
+    }
 }
