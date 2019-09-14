@@ -5,8 +5,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class Client implements Runnable {
-    public static final String SERVERIP = "68.198.36.58";
-    public static final int SERVERPORT = 55056;
+    public static final String SERVERIP = "192.168.0.1";
+    public static final int SERVERPORT = 3333;
     public String message = "";
 
     public void setDataToSend(String dataToSend) {
